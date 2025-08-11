@@ -79,6 +79,15 @@
     button:hover {
         background-color: #e55b00;
     }
+
+    .checkout-btn {
+        background-color: #007bff;
+        margin-top: 10px;
+    }
+
+    .checkout-btn:hover {
+        background-color: #0056b3;
+    }
 </style>
 </head>
 <body>
@@ -92,6 +101,7 @@
     <h2>🛒 Cart Summary</h2>
     <p id="cart-items">No items in cart.</p>
     <p><strong>Total Cost:</strong> RWF <span id="total-cost">0</span></p>
+    <button class="checkout-btn" onclick="goToCheckout()">Proceed to Checkout</button>
 </div>
 
 <div class="grid">
@@ -169,13 +179,11 @@
         const index = cart.findIndex(item => item.name === name);
 
         if (index === -1) {
-            // Add product
             cart.push({ name, price });
             totalCost += price;
             button.textContent = "Remove from Cart";
             button.style.backgroundColor = "#c00";
         } else {
-            // Remove product
             totalCost -= price;
             cart.splice(index, 1);
             button.textContent = "Add to Cart";
@@ -197,7 +205,18 @@
 
         totalCostElement.textContent = totalCost.toLocaleString();
     }
+
+    function goToCheckout() {
+        if (cart.length === 0) {
+            alert("Your cart is empty!");
+            return;
+        }
+        localStorage.setItem("cart", JSON.stringify(cart));
+        localStorage.setItem("totalCost", totalCost);
+        window.location.href = "checkout.html"; // The page we'll create later
+    }
 </script>
 
 </body>
 </html>
+
